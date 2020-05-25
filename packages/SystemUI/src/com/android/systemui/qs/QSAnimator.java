@@ -75,6 +75,8 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
     private QSTileHost mHost;
     private boolean mShowCollapsedOnKeyguard;
 
+    private boolean mIsQuickQsBrightnessEnabled;
+
     public QSAnimator(QS qs, QuickQSPanel quickPanel, QSPanel panel) {
         mQs = qs;
         mQuickQsPanel = quickPanel;
@@ -136,6 +138,7 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
     public void onViewAttachedToWindow(View v) {
         Dependency.get(TunerService.class).addTunable(this, ALLOW_FANCY_ANIMATION,
                 MOVE_FULL_ROWS);
+        Dependency.get(TunerService.class).addTunable(this, mQsPanel.QS_SHOW_BRIGHTNESS_SLIDER);
     }
 
     @Override
@@ -155,6 +158,13 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
             }
         } else if (MOVE_FULL_ROWS.equals(key)) {
             mFullRows = TunerService.parseIntegerSwitch(newValue, true);
+        } else if (mQsPanel.QS_SHOW_BRIGHTNESS_SLIDER.equals(key)) {
+            try {
+                mIsQuickQsBrightnessEnabled = Integer.parseInt(newValue) > 0;
+            } catch (NumberFormatException e) {
+                // Catches exception as newValue may be null or malformed.
+                mIsQuickQsBrightnessEnabled = false;
+            }
         }
         updateAnimators();
     }
@@ -271,7 +281,7 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
             if (brightness != null) {
                 firstPageBuilder.addFloat(brightness, "translationY", heightDiff, 0);
                 mBrightnessAnimator = new TouchAnimator.Builder()
-                        .addFloat(brightness, "alpha", 0, 1)
+                        .addFloat(brightness, "alpha", mIsQuickQsBrightnessEnabled ? 1 : 0, 1)
                         .setStartDelay(.5f)
                         .build();
                 mAllViews.add(brightness);
