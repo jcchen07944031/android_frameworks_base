@@ -161,6 +161,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private boolean mIsQuickQsBrightnessEnabled;
     private boolean mIsQsAutoBrightnessEnabled;
     private boolean mBrightnessButton;
+    private int mBrightnessSlider;
     private ImageView mMinBrightness;
     private ImageView mMaxBrightness;
 
@@ -462,7 +463,15 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mSystemIconsView.getLayoutParams().height = topMargin;
         mSystemIconsView.setLayoutParams(mSystemIconsView.getLayoutParams());
 
+        RelativeLayout.LayoutParams headerPanel = (RelativeLayout.LayoutParams)
+                mHeaderQsPanel.getLayoutParams();
+        headerPanel.addRule(RelativeLayout.BELOW, R.id.quick_qs_status_icons);
+
         if (mIsQuickQsBrightnessEnabled) {
+            if (mBrightnessSlider == 1) {
+                headerPanel.addRule(RelativeLayout.BELOW, R.id.quick_qs_brightness_bar);
+            }
+
             if (mIsQsAutoBrightnessEnabled && resources.getBoolean(
                     com.android.internal.R.bool.config_automatic_brightness_available)) {
                ImageView brightnessIcon = (ImageView) mQuickQsBrightness.findViewById(R.id.brightness_icon);
@@ -479,6 +488,8 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         } else {
             mQuickQsBrightness.setVisibility(View.GONE);
         }
+
+        mHeaderQsPanel.setLayoutParams(headerPanel);
 
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) getLayoutParams();
         if (mQsDisabled) {
@@ -655,6 +666,12 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         RelativeLayout.LayoutParams lpQuickQsBrightness = (RelativeLayout.LayoutParams)
                 mQuickQsBrightness.getLayoutParams();
         lpQuickQsBrightness.setMargins(sp - mPaddingLeft, 0, sp - mPaddingRight, 0);
+        lpQuickQsBrightness.addRule(RelativeLayout.BELOW, R.id.header_text_container);
+        if (mBrightnessSlider == 2) {
+            lpQuickQsBrightness.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        } else {
+            lpQuickQsBrightness.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+        }
         mQuickQsBrightness.setLayoutParams(lpQuickQsBrightness);
         return super.onApplyWindowInsets(insets);
     }
@@ -852,12 +869,8 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (mQsPanel.QS_SHOW_BRIGHTNESS_SLIDER.equals(key)) {
-            try {
-                mIsQuickQsBrightnessEnabled = Integer.parseInt(newValue) > 0;
-            } catch (NumberFormatException e) {
-                // Catches exception as newValue may be null or malformed.
-                mIsQuickQsBrightnessEnabled = false;
-            }
+            mBrightnessSlider = TunerService.parseInteger(newValue, 2);
+            mIsQuickQsBrightnessEnabled = mBrightnessSlider > 0;
             updateResources();
         } else if (mQsPanel.QS_SHOW_AUTO_BRIGHTNESS.equals(key)) {
             mIsQsAutoBrightnessEnabled = TunerService.parseIntegerSwitch(newValue, true);
