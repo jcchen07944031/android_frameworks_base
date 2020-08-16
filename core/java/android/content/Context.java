@@ -3259,6 +3259,7 @@ public abstract class Context {
             //@hide: SYSTEM_UPDATE_SERVICE,
             //@hide: TIME_DETECTOR_SERVICE,
             PERMISSION_SERVICE,
+			EDGE_SENSOR_SERVICE,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ServiceName {}
@@ -4700,6 +4701,12 @@ public abstract class Context {
      * @hide
      */
     public static final String LONGSCREENSHOT_SERVICE = "longshot";
+	
+	/**
+     * Edge Sensor
+     * @hide
+     */
+    public static final String EDGE_SENSOR_SERVICE = "edgesensor";
 
     /**
      * Determine whether the given permission is allowed for a particular

@@ -286,6 +286,8 @@ public final class SystemServer {
             "com.android.server.appprediction.AppPredictionManagerService";
     private static final String CONTENT_SUGGESTIONS_SERVICE_CLASS =
             "com.android.server.contentsuggestions.ContentSuggestionsManagerService";
+	private static final String EDGE_SENSOR_SERVICE_CLASS = 
+			"com.android.server.EdgeSensorService";
 
     private static final String PERSISTENT_DATA_BLOCK_PROP = "ro.frp.pst";
 
@@ -922,6 +924,7 @@ public final class SystemServer {
         ConsumerIrService consumerIr = null;
         MmsServiceBroker mmsService = null;
         HardwarePropertiesManagerService hardwarePropertiesService = null;
+		EdgeSensorService edgeSensorService = null;
 
         boolean disableSystemTextClassifier = SystemProperties.getBoolean(
                 "config.disable_systemtextclassifier", false);
@@ -2321,6 +2324,15 @@ public final class SystemServer {
             traceEnd();
             mSmartPixelsReceiver = new SmartPixelsReceiver(context);
         }, BOOT_TIMINGS_TRACE_LOG);
+		
+		try {
+			traceBeginAndSlog("EdgeSensorService");
+			edgeSensorService = new EdgeSensorService(mSystemContext);
+			ServiceManager.addService(Context.EDGE_SENSOR_SERVICE_CLASS, edgeSensorService);
+		} catch (Throwable e) {
+			Slog.e(TAG, "Starting EdgeSensorService failed!!! ", e);
+		}
+		traceEnd();
     }
 
     private boolean deviceHasConfigString(@NonNull Context context, @StringRes int resId) {
