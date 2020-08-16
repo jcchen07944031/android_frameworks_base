@@ -163,6 +163,7 @@ import com.android.server.webkit.WebViewUpdateService;
 import com.android.server.wm.ActivityTaskManagerService;
 import com.android.server.wm.WindowManagerGlobalLock;
 import com.android.server.wm.WindowManagerService;
+import com.android.server.EdgeSensorService;
 
 import dalvik.system.VMRuntime;
 
@@ -286,8 +287,6 @@ public final class SystemServer {
             "com.android.server.appprediction.AppPredictionManagerService";
     private static final String CONTENT_SUGGESTIONS_SERVICE_CLASS =
             "com.android.server.contentsuggestions.ContentSuggestionsManagerService";
-	private static final String EDGE_SENSOR_SERVICE_CLASS = 
-			"com.android.server.EdgeSensorService";
 
     private static final String PERSISTENT_DATA_BLOCK_PROP = "ro.frp.pst";
 
@@ -2328,7 +2327,7 @@ public final class SystemServer {
 		try {
 			traceBeginAndSlog("EdgeSensorService");
 			edgeSensorService = new EdgeSensorService(mSystemContext);
-			ServiceManager.addService(Context.EDGE_SENSOR_SERVICE_CLASS, edgeSensorService);
+			ServiceManager.addService("edge_sensor", edgeSensorService);
 		} catch (Throwable e) {
 			Slog.e(TAG, "Starting EdgeSensorService failed!!! ", e);
 		}
