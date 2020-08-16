@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.android.server;
+package com.android.server.edgesensor;
 
 class TouchscreenGestureConstants {
     // Gesture actions

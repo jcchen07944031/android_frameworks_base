@@ -163,7 +163,7 @@ import com.android.server.webkit.WebViewUpdateService;
 import com.android.server.wm.ActivityTaskManagerService;
 import com.android.server.wm.WindowManagerGlobalLock;
 import com.android.server.wm.WindowManagerService;
-import com.android.server.EdgeSensorService;
+import com.android.server.edgesensor.EdgeSensorService;
 
 import dalvik.system.VMRuntime;
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.android.server;
+package com.android.server.edgesensor;
 
 import android.app.Service;
 import android.content.ActivityNotFoundException;
