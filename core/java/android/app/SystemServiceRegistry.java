@@ -1315,17 +1315,6 @@ final class SystemServiceRegistry {
                         return LongScreenshotManager.getInstance();
                     }});
         //CHECKSTYLE:ON IndentationCheck
-		
-		registerService(Context.EDGE_SENSOR_SERVICE, EdgeSensorServiceManager.class,
-                new CachedServiceFetcher<EdgeSensorServiceManager>() {
-                    @Override
-                    public EdgeSensorServiceManager createService(ContextImpl ctx)
-                            throws ServiceNotFoundException {
-                        IBinder b = ServiceManager.getServiceOrThrow(
-                                Context.EDGE_SENSOR_SERVICE);
-                        return new EdgeSensorServiceManager(
-                                IEdgeSensorServiceManager.Stub.asInterface(b));
-                    }});
     }
 
     /**
