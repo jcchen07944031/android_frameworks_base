@@ -65,7 +65,7 @@ import com.android.internal.util.custom.FileUtils;
 
 import java.util.List;
 
-public class SqueezeGestureService extends HTCSuperGestures {
+public class EdgeSensorService extends HTCSuperGestures {
 
     private static final boolean DEBUG = false;
 
