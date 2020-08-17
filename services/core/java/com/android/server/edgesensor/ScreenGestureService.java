@@ -99,6 +99,8 @@ public class ScreenGestureService extends HTCSuperGestures implements SensorEven
     private boolean mHapticFeedbackEnabled;
 
 	public ScreenGestureService(Context context) {
+		super(context);
+		
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         loadPreferences(sharedPrefs);
         sharedPrefs.registerOnSharedPreferenceChangeListener(mPrefListener);
