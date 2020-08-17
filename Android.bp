@@ -271,6 +271,7 @@ java_defaults {
         "core/java/android/os/IThermalService.aidl",
         "core/java/android/os/IUpdateLock.aidl",
         "core/java/android/os/IUserManager.aidl",
+        "core/java/android/os/IEdgeSensorService.aidl",
         ":libvibrator_aidl",
         "core/java/android/os/IVibratorService.aidl",
         "core/java/android/os/image/IDynamicSystemService.aidl",

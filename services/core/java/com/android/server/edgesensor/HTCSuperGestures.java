@@ -44,6 +44,7 @@ import android.os.SystemClock;
 import android.os.UserHandle;
 import android.os.Vibrator;
 import android.os.VibrationEffect;
+import android.os.IEdgeSensorService;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -71,7 +72,7 @@ import com.android.internal.util.custom.FileUtils;
 
 import java.util.List;
 
-public abstract class HTCSuperGestures extends Service {
+public abstract class HTCSuperGestures extends IEdgeSensorService.Stub {
 
     private static final String GESTURE_WAKEUP_REASON = "gesture-wakeup";
     protected static final String TAG = "GestureService";

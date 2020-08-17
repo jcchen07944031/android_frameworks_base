@@ -142,6 +142,7 @@ import android.os.IPowerManager;
 import android.os.IRecoverySystem;
 import android.os.ISystemUpdateManager;
 import android.os.IUserManager;
+import android.os.IEdgeSensorService;
 import android.os.IncidentManager;
 import android.os.PowerManager;
 import android.os.RecoverySystem;
@@ -1315,6 +1316,17 @@ final class SystemServiceRegistry {
                         return LongScreenshotManager.getInstance();
                     }});
         //CHECKSTYLE:ON IndentationCheck
+		
+		registerService(Context.EDGE_SENSOR_SERVICE, EdgeSensorManager.class,
+                new CachedServiceFetcher<EdgeSensorManager>() {
+                    @Override
+                    public EdgeSensorManager createService(ContextImpl ctx)
+                            throws ServiceNotFoundException {
+                        IBinder b = ServiceManager.getServiceOrThrow(
+                                Context.EDGE_SENSOR_SERVICE);
+                        return new EdgeSensorManager(ctx, 
+                                IEdgeSensorService.Stub.asInterface(b));
+                    }});
     }
 
     /**
