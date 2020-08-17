@@ -1,5 +1,5 @@
 package android.os;
 
-interface EdgeSensorService {
+interface IEdgeSensorService {
 
 }
