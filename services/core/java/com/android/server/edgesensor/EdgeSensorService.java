@@ -114,15 +114,14 @@ public class EdgeSensorService extends HTCSuperGestures {
 
     private HtcEdgeGestureSensorEventListener mEdgeGestureSensorEventListener = new HtcEdgeGestureSensorEventListener();
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+	public EdgeSensorService(Context context) {
+		super(context);
+		
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         loadPreferences(sharedPrefs);
         sharedPrefs.registerOnSharedPreferenceChangeListener(mPrefListener);
 
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 
         Iterator iterator = mSensorManager.getSensorList(-1).iterator();
         while (iterator.hasNext()) {
@@ -160,13 +159,7 @@ public class EdgeSensorService extends HTCSuperGestures {
                 }
             }
         };
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mSensorManager.unregisterListener(mEdgeGestureSensorEventListener);
-    }
+	}
 
     private void tryHapticFeedback() {
         if (mHapticIgnoreRinger && mHapticFeedbackEnabled)
@@ -348,7 +341,7 @@ public class EdgeSensorService extends HTCSuperGestures {
     }
 
     public static String getForegroundApp(Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List < ActivityManager.RunningTaskInfo > runningTaskInfo = manager.getRunningTasks(1);
 
         ComponentName componentInfo = runningTaskInfo.get(0).topActivity;

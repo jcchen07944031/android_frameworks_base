@@ -98,15 +98,12 @@ public class ScreenGestureService extends HTCSuperGestures implements SensorEven
     private boolean mHapticIgnoreRinger;
     private boolean mHapticFeedbackEnabled;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+	public ScreenGestureService(Context context) {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         loadPreferences(sharedPrefs);
         sharedPrefs.registerOnSharedPreferenceChangeListener(mPrefListener);
 
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 
         mSensorEventListener = this;
 
@@ -125,14 +122,7 @@ public class ScreenGestureService extends HTCSuperGestures implements SensorEven
             mSensorManager.registerListener(mSensorEventListener,
                 mSensor, SensorManager.SENSOR_DELAY_GAME);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (DEBUG) Log.d(TAG, "Destroying service");
-        super.onDestroy();
-        mSensorManager.unregisterListener(this);
-    }
+	}
 
     private void tryHapticFeedback() {
         if (mHapticIgnoreRinger && mHapticFeedbackEnabled)

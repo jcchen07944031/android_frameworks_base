@@ -86,29 +86,14 @@ public abstract class HTCSuperGestures extends IEdgeSensorService.Stub {
     protected PowerManager mPowerManager;
     protected WakeLock mGestureWakeLock;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        mContext = this;
-
-        mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        mCameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
+	public HTCSuperGestures(Context context) {
+		mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         mCameraManager.registerTorchCallback(new TorchModeCallback(), null);
-        mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         mGestureWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "HtcGestureWakeLock");
-        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+        mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+	}
 
     protected class TorchModeCallback extends CameraManager.TorchCallback {
         @Override
